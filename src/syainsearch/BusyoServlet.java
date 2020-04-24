@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 /**
  * Servlet implementation class BusyoServlet
@@ -26,10 +28,10 @@ public class BusyoServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	//public BusyoServlet() {
-		//super();
+	public BusyoServlet() {
+		super();
 		// TODO Auto-generated constructor stub
-	//}
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -93,7 +95,7 @@ public class BusyoServlet extends HttpServlet {
 				PrintWriter pw = response.getWriter();
 				// JSONで出力する
 				pw.append(new ObjectMapper().writeValueAsString(busyoList));
-
+				//pw.append(new ObjectMapper().writeValueAsString(busyoId));
 			}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
