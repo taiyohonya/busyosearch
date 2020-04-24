@@ -38,7 +38,8 @@ public class BusyoServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// アクセス元のHTMLでitemNameに設定された値を取得して、String型の変数itemNameに代入
-				String busyoId = request.getParameter("busyoId");
+				//String busyoId = request.getParameter("busyoId");
+
 
 				// JDBCドライバの準備
 				try {
@@ -56,13 +57,11 @@ public class BusyoServlet extends HttpServlet {
 				String user = "wt2";
 				String pass = "wt2";
 
-				// 実行するSQL文
+//				// 実行するSQL文
 				String sql = "select \n" +
 						"BUSYO.BUSYO_NAME \n" +
 						"from \n" +
-						" BUSYO \n" +
-						"where 1=1 \n";
-
+						" BUSYO \n";
 				// 商品情報リスト（Item型のリスト）
 				List<Busyo> busyoList = new ArrayList<>();
 				// エラーが発生するかもしれない処理はtry-catchで囲みます
@@ -73,6 +72,8 @@ public class BusyoServlet extends HttpServlet {
 
 						// SQLの命令文を実行するための準備をおこないます
 						Statement stmt = con.createStatement();
+
+
 
 						// SQLの命令文を実行し、その結果をResultSet型のrsに代入します
 						ResultSet rs1 = stmt.executeQuery(sql);) {
