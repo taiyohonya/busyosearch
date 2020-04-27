@@ -44,7 +44,7 @@ public class BusyoRemoveServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String busyoRemove = request.getParameter("busyoRemove");
+		String removeBusyoId = request.getParameter("removeBusyoId");
 
 		response.setContentType("text/html;charset=UTF-8");
 
@@ -65,7 +65,8 @@ public class BusyoRemoveServlet extends HttpServlet {
 		String pass = "wt2";
 
 		// // 実行するSQL文
-		String sql =
+		String sql = "delete from BUSYO \n" +
+				"where 1=1 and BUSYO.BUSYO_NAME='"+removeBusyoId+"'\n" +" \n";
 
 		// エラーが発生するかもしれない処理はtry-catchで囲みます
 		// この場合はDBサーバへの接続に失敗する可能性があります

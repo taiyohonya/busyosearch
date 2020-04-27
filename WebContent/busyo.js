@@ -10,13 +10,15 @@ function executeAjax() {
 		success : function(json) {
 			console.log(json);
 
-			var inputEmpId = document.activeElement.value;
+
 
 			for (var i = 0; i < json.length; i++) {
 				var data = '<tr id="data_name">' + '<td>' + (i + 1) + '</td>' + '<td>'
-						+ json[i].busyoName + '</td>'+'<td>'+'<button>編集 '+'</button>'+'</td>'+'<td>'+'<button id="busyo_delete" value="+Emp.empId+">削除'+'</button>'+'</td>';
+						+ json[i].busyoName + '</td>'+'<td>'+'<button>編集 '+'</button>'+'</td>'+'<td>'+'<button class="busyo_delete" value="'+json[i].busyoId+'">削除'+'</button>'+'</td>';
 				$('#table_data').append(data);
+				console.log(json[i].busyoId);
 			}
+			$('.busyo_delete').click(deleteBusyo);
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			// サーバーとの通信に失敗した時の処理
@@ -36,7 +38,7 @@ var addBusyo = function() {
 		busyoCdNew : inputBusyoCd,
 		busyoNameNew : inputBusyoName
 	};
-	console.log("requestQuery");
+	console.log(requestQuery);
 	// サーバーにデータ送信
 	$.ajax({
 		type : 'POST',
@@ -59,11 +61,11 @@ var addBusyo = function() {
 
 var deleteBusyo = function(){
 
-	var busyoDelete = $('data_name').remove();
+	var removeBusyoId = document.activeElement.value;
 	var requestQuery={
-			busyoRemove:busyoDelete
+			busyoRemove:removeBusyoId
 	};
-	console.log("requestQuery");
+	console.log(requestQuery);
 
 	$.ajax({
 		type : 'POST',
@@ -92,6 +94,6 @@ $(document).ready(function() {
 
 	$('#js-add-input').click(addBusyo);
 
-	$('#busyo_delete').click(deleteBusyo);
+
 
 });
