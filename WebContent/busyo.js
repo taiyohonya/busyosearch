@@ -14,11 +14,12 @@ function executeAjax() {
 
 			for (var i = 0; i < json.length; i++) {
 				var data = '<tr id="data_name">' + '<td>' + (i + 1) + '</td>' + '<td>'
-						+ json[i].busyoName + '</td>'+'<td>'+'<button>編集 '+'</button>'+'</td>'+'<td>'+'<button class="busyo_delete" value="'+json[i].busyoId+'">削除'+'</button>'+'</td>';
+						+ json[i].busyoName + '</td>'+'<td>'+'<button class="busyo_edit" value="'+json[i].busyoId+'">編集 '+'</button>'+'</td>'+'<td>'+'<button class="busyo_delete" value="'+json[i].busyoId+'">削除'+'</button>'+'</td>';
 				$('#table_data').append(data);
 				console.log(json[i].busyoId);
 			}
 			$('.busyo_delete').click(deleteBusyo);
+			$('.busyo_edit').click(editBusyo);
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			// サーバーとの通信に失敗した時の処理
@@ -84,6 +85,11 @@ var deleteBusyo = function(){
 	})
 }
 
+var editBusyo = function(){
+
+	var url='http://localhost:8080/syainsearch/edit_busyo.html';
+	location.href=url;
+}
 
 $(document).ready(function() {
 	 'use strict';
