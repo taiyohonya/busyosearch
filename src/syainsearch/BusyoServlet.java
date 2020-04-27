@@ -125,6 +125,7 @@ public class BusyoServlet extends HttpServlet {
 						"(BUSYO_ID, BUSYO_NAME) \n" +
 						"values \n" +
 						"('"+busyoCdNew+"','"+busyoNameNew+"')";
+				System.out.println(sql);
 
 				// エラーが発生するかもしれない処理はtry-catchで囲みます
 				// この場合はDBサーバへの接続に失敗する可能性があります

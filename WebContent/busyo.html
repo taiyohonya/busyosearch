@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>部署データベース管理ページ</title>
 <!-- JavaScriptの読み込み -->
-<script type="text/javascript" src="jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="busyo.js"></script>
 </head>
 <body>
@@ -18,16 +18,29 @@
 			<tr>
 				<th>ID</th>
 				<th>部署名</th>
+				<th> </th>
+				<th> </th>
 			</tr>
+			<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>
+
 		</table>
 	</div>
 	<div>
-	<h4>新規追加</h4>
-	部署ID:
-	<input type="text" id="js-add-inputCd"></input>
-	名前：
-	<input type="text" id="js-add-inputName"></input>
-	<button id="js-add-input">設定</button>
+		<h4>新規追加</h4>
+		<table>
+			<tr>
+				<th>部署ID:</th>
+				<td><input type="text" id="js-add-inputCd"></input></td>
+				<th>名前：</th>
+				<td><input type="text" id="js-add-inputName"></input></td>
+			</tr>
+		</table>
+		<button id="js-add-input">設定</button>
 	</div>
 </body>
 </html>

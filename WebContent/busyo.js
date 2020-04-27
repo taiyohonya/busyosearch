@@ -2,7 +2,6 @@
 function executeAjax() {
 	'use strict';
 
-
 	$.ajax({
 		type : 'GET',
 		url : '/syainsearch/BusyoServlet',
@@ -26,20 +25,24 @@ function executeAjax() {
 	});
 }
 
-//新しい部署登録
+// 新しい部署登録
 var addBusyo = function() {
-	var inputBusyoName=$('#js-add-inputName').val();
-	var inputBusyoCd=$('#js-add-inputCd').val();
-	var requestQuery={busyoNameNew:inputBusyoName};
-	console.log('requestQuery');
-	//サーバーにデータ送信
+	var inputBusyoCd = $('#js-add-inputCd').val();
+	var inputBusyoName = $('#js-add-inputName').val();
+
+	var requestQuery = {
+		busyoCdNew : inputBusyoCd,
+		busyoNameNew : inputBusyoName
+	};
+	console.log("requestQuery");
+	// サーバーにデータ送信
 	$.ajax({
-		type:'POST',
-		dataType:'json',
-		url:'/syainsearch/BusyoServlet',
-		data:requestQuery,
-		success:function(json){
-			console.log('返却値',json);
+		type : 'POST',
+		dataType : 'json',
+		url : '/syainsearch/BusyoServlet',
+		data : requestQuery,
+		success : function(json) {
+			console.log('返却値', json);
 
 			alert('データベースへの登録が完了しました')
 		},
@@ -53,7 +56,7 @@ var addBusyo = function() {
 }
 
 $(document).ready(function() {
-	'use strict';
+	 'use strict';
 
 	// 初期表示用
 	executeAjax();
