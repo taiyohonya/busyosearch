@@ -59,7 +59,7 @@ public class BusyoServlet extends HttpServlet {
 		String pass = "wt2";
 
 		// // 実行するSQL文
-		String sql = "select \n" + "BUSYO.BUSYO_NAME \n" + "from \n" + " BUSYO \n";
+		String sql ="select * from BUSYO \n";
 		// 商品情報リスト（Item型のリスト）
 		List<Busyo> busyoList = new ArrayList<>();
 		// エラーが発生するかもしれない処理はtry-catchで囲みます
@@ -80,8 +80,10 @@ public class BusyoServlet extends HttpServlet {
 				// 一つ分の商品情報を入れるためのItemインスタンスを生成
 				Busyo busyo = new Busyo();
 				// SQLの取得結果をインスタンスに代入
+				busyo.setBusyoId(rs1.getString("BUSYO_ID"));
 				busyo.setBusyoName(rs1.getString("BUSYO_NAME"));
 				System.out.println(rs1.getString("BUSYO_NAME"));
+				System.out.println(rs1.getString("BUSYO_ID"));
 				// 値を格納した商品インスタンスをリストに追加
 				busyoList.add(busyo);
 			}
@@ -138,7 +140,7 @@ public class BusyoServlet extends HttpServlet {
 					// SQLの命令文を実行し、その件数をint型のresultCountに代入します
 					int resultCount = stmt.executeUpdate(sql);
 				} catch (Exception e) {
-					throw new RuntimeException(String.format("検索処理の実施中にエラーが発生しました。詳細：[%s]", e.getMessage()), e);
+					throw new RuntimeException(String.format("処理の実施中にエラーが発生しました。詳細：[%s]", e.getMessage()), e);
 				}
 
 				// アクセスした人に応答するためのJSONを用意する

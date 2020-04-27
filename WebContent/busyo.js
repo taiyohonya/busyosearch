@@ -10,9 +10,11 @@ function executeAjax() {
 		success : function(json) {
 			console.log(json);
 
+			var inputEmpId = document.activeElement.value;
+
 			for (var i = 0; i < json.length; i++) {
-				var data = '<tr>' + '<td>' + (i + 1) + '</td>' + '<td>'
-						+ json[i].busyoName + '</td>';
+				var data = '<tr id="data_name">' + '<td>' + (i + 1) + '</td>' + '<td>'
+						+ json[i].busyoName + '</td>'+'<td>'+'<button>編集 '+'</button>'+'</td>'+'<td>'+'<button id="busyo_delete" value="+Emp.empId+">削除'+'</button>'+'</td>';
 				$('#table_data').append(data);
 			}
 		},
@@ -55,6 +57,32 @@ var addBusyo = function() {
 
 }
 
+var deleteBusyo = function(){
+
+	var busyoDelete = $('data_name').remove();
+	var requestQuery={
+			busyoRemove:busyoDelete
+	};
+	console.log("requestQuery");
+
+	$.ajax({
+		type : 'POST',
+		dataType : 'json',
+		url : '/syainsearch/BusyoRemoveServlet',
+		success : function(json){
+			console.log('返却値',json);
+
+			alert('削除しました');
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			// サーバーとの通信に失敗した時の処理
+			alert('データの通信に失敗しました');
+			console.log(errorThrown)
+		}
+	})
+}
+
+
 $(document).ready(function() {
 	 'use strict';
 
@@ -63,5 +91,7 @@ $(document).ready(function() {
 	$('#table_data').ready('load', executeAjax);
 
 	$('#js-add-input').click(addBusyo);
+
+	$('#busyo_delete').click(deleteBusyo);
 
 });
