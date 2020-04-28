@@ -41,16 +41,16 @@ var addEmp = function() {
 
 var deleteEmp = function() {
 
-	var removeBusyoId = document.activeElement.value;
+	var removeEmpId = document.activeElement.value;
 	var requestQuery = {
-		busyoRemove : removeBusyoId
+		empRemove : removeEmpId
 	};
 	console.log(requestQuery);
 
 	$.ajax({
 		type : 'POST',
 		dataType : 'json',
-		url : '/syainsearch/BusyoRemoveServlet',
+		url : '/syainsearch/EmpRemoveServlet',
 		success : function(json) {
 			console.log('返却値', json);
 
