@@ -5,6 +5,20 @@
 <title>社員データベース検索ページ</title>
 </head>
 <body>
-
+	<h1>条件を指定して社員情報を検索します。</h1>
+	<table>
+		<tr>
+			<th>所属部署</th>
+			<td><input type="text" id="js-search-dep"></input></td>
+		<tr>
+			<th>社員ID</th>
+			<td><input type="text" id="js-search-id"></input></td>
+		</tr>
+		<tr>
+			<th>名前に含む文字</th>
+			<td><input type="text" id="js-search-name"></input></td>
+		</tr>
+	</table>
+	<button id=js-search-button>検索</button>
 </body>
 </html>
