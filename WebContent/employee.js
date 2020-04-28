@@ -1,0 +1,85 @@
+// AjaxでJSONを取得する
+function executeAjax() {
+	'use strict';
+
+	$.ajax({
+		type : 'GET',
+		url : '/syainsearch/EmployeeServlet',
+		dataType : 'json',
+		// data : requestQuery, // urlの?以降
+		success : function(json) {
+			console.log(json);
+
+			for (var i = 0; i < json.length; i++) {
+				var data = '<tr>' + '<td>' + json[i].empId + '</td>' + '<td>'
+						+ json[i].empName + '</td>' + '<td>'
+						+ '<button class="emp_edit" value="' + json[i].empName
+						+ '">編集 ' + '</button>' + '</td>' + '<td>'
+						+ '<button class="emp_delete" value="' + json[i].empId
+						+ '">削除' + '</button>' + '</td>';
+				$('#table_data').append(data);
+				console.log(json[i].empId);
+			}
+			$('.emp_delete').click(deleteEmp);
+			$('.emp_edit').click(editBusyo);
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			// サーバーとの通信に失敗した時の処理
+			alert('データの通信に失敗しました');
+			console.log(errorThrown)
+		}
+
+	});
+}
+
+// 新しい部署登録
+var addEmp = function() {
+	var url = 'http://localhost:8080/syainsearch/editEmployee.html';
+	location.href = url;
+
+}
+
+var deleteEmp = function() {
+
+	var removeBusyoId = document.activeElement.value;
+	var requestQuery = {
+		busyoRemove : removeBusyoId
+	};
+	console.log(requestQuery);
+
+	$.ajax({
+		type : 'POST',
+		dataType : 'json',
+		url : '/syainsearch/BusyoRemoveServlet',
+		success : function(json) {
+			console.log('返却値', json);
+
+			alert('削除しました');
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			// サーバーとの通信に失敗した時の処理
+			alert('データの通信に失敗しました');
+			console.log(errorThrown)
+		}
+	})
+}
+
+var editBusyo = function() {
+
+	var nameOrigin = document.activeElement.value;
+	localStorage.setItem(nameOrigin, nameOrigin);
+	var url = 'http://localhost:8080/syainsearch/edit_busyo.html';
+	location.href = url;
+
+}
+
+$(document).ready(function() {
+	'use strict';
+
+	// 初期表示用
+	executeAjax();
+	$('#table_data').ready('load', executeAjax);
+
+	$('#js-add-input').click(addEmp);
+
+});
