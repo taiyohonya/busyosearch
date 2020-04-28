@@ -1,6 +1,5 @@
 var editAdd = function() {
 
-	var inputEmpCd = $('#js-add-inputCd').val();
 	var inputEmpName = $('#js-add-inputName').val();
 	var inputEmpAge = $('#js-add-inputAge').val();
 	var inputEmpSex = $('#js-add-inputSex').val();
@@ -10,7 +9,6 @@ var editAdd = function() {
 	var inputEmpLeave = $('#js-add-inputLeaveDay').val();
 
 	var requestQuery = {
-		inputEmpCd : inputEmpCd,
 		inputEmpName : inputEmpName,
 		inputEmpAge : inputEmpAge,
 		inputEmpSex : inputEmpSex,
@@ -24,7 +22,7 @@ var editAdd = function() {
 	$.ajax({
 		type : 'POST',
 		dataType : 'json',
-		url : '/syainsearch/EmployeeServlet',
+		url : '/syainsearch/EditEmployeeServlet',
 		data : requestQuery,
 		success : function(json) {
 			console.log('返却値', json);

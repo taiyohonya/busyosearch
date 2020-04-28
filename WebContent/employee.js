@@ -13,7 +13,7 @@ function executeAjax() {
 			for (var i = 0; i < json.length; i++) {
 				var data = '<tr>' + '<td>' + json[i].empId + '</td>' + '<td>'
 						+ json[i].empName + '</td>' + '<td>'
-						+ '<button class="emp_edit" value="' + json[i].empName
+						+ '<button class="emp_edit" value="' + json[i].empId
 						+ '">編集 ' + '</button>' + '</td>' + '<td>'
 						+ '<button class="emp_delete" value="' + json[i].empId
 						+ '">削除' + '</button>' + '</td>';
@@ -21,7 +21,7 @@ function executeAjax() {
 				console.log(json[i].empId);
 			}
 			$('.emp_delete').click(deleteEmp);
-			$('.emp_edit').click(editBusyo);
+			$('.emp_edit').click(editEmp);
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			// サーバーとの通信に失敗した時の処理
@@ -64,11 +64,11 @@ var deleteEmp = function() {
 	})
 }
 
-var editBusyo = function() {
+var editEmp = function() {
 
-	var nameOrigin = document.activeElement.value;
-	localStorage.setItem(nameOrigin, nameOrigin);
-	var url = 'http://localhost:8080/syainsearch/edit_busyo.html';
+	var empId = document.activeElement.value;
+	localStorage.setItem(empId,empId);
+	var url = 'http://localhost:8080/syainsearch/editEditEmp.html';
 	location.href = url;
 
 }
