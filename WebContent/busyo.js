@@ -10,11 +10,13 @@ function executeAjax() {
 		success : function(json) {
 			console.log(json);
 
-
-
 			for (var i = 0; i < json.length; i++) {
-				var data = '<tr id="data_name">' + '<td>' + (i + 1) + '</td>' + '<td>'
-						+ json[i].busyoName + '</td>'+'<td>'+'<button class="busyo_edit" value="'+json[i].busyoId+'">編集 '+'</button>'+'</td>'+'<td>'+'<button class="busyo_delete" value="'+json[i].busyoId+'">削除'+'</button>'+'</td>';
+				var data = '<tr>' + '<td>' + (i + 1) + '</td>' + '<td>'
+						+ json[i].busyoName + '</td>' + '<td>'
+						+ '<button class="busyo_edit" value="'
+						+ json[i].busyoName + '">編集 ' + '</button>' + '</td>'
+						+ '<td>' + '<button class="busyo_delete" value="'
+						+ json[i].busyoId + '">削除' + '</button>' + '</td>';
 				$('#table_data').append(data);
 				console.log(json[i].busyoId);
 			}
@@ -60,11 +62,11 @@ var addBusyo = function() {
 
 }
 
-var deleteBusyo = function(){
+var deleteBusyo = function() {
 
 	var removeBusyoId = document.activeElement.value;
-	var requestQuery={
-			busyoRemove:removeBusyoId
+	var requestQuery = {
+		busyoRemove : removeBusyoId
 	};
 	console.log(requestQuery);
 
@@ -72,8 +74,8 @@ var deleteBusyo = function(){
 		type : 'POST',
 		dataType : 'json',
 		url : '/syainsearch/BusyoRemoveServlet',
-		success : function(json){
-			console.log('返却値',json);
+		success : function(json) {
+			console.log('返却値', json);
 
 			alert('削除しました');
 		},
@@ -85,21 +87,22 @@ var deleteBusyo = function(){
 	})
 }
 
-var editBusyo = function(){
+var editBusyo = function() {
 
-	var url='http://localhost:8080/syainsearch/edit_busyo.html';
-	location.href=url;
+	var nameOrigin = document.activeElement.value;
+	localStorage.setItem(nameOrigin, nameOrigin);
+	var url = 'http://localhost:8080/syainsearch/edit_busyo.html';
+	location.href = url;
+
 }
 
 $(document).ready(function() {
-	 'use strict';
+	'use strict';
 
 	// 初期表示用
 	executeAjax();
 	$('#table_data').ready('load', executeAjax);
 
 	$('#js-add-input').click(addBusyo);
-
-
 
 });

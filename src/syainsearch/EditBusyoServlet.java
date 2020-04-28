@@ -21,29 +21,34 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class EditBusyoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public EditBusyoServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public EditBusyoServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//doGet(request, response);
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// doGet(request, response);
 
 		String editName = request.getParameter("editName");
+		String originName = request.getParameter("originName");
 
 		// JDBCドライバの準備
 		try {
@@ -60,10 +65,8 @@ public class EditBusyoServlet extends HttpServlet {
 		String pass = "wt2";
 
 		// 実行するSQL文
-		String sql = "update BUSYO \n" +
-				"set BUSYO.BUSYO_NAME='"+editName+"'" \n" +
-				"where 1=1 and BUSYO.BUSYO_ID='D03'; \n" +
-				" \n";
+		String sql = "update BUSYO set BUSYO.BUSYO_NAME='" + editName + "' where 1=1 and BUSYO.BUSYO_NAME='"
+				+ originName + "'";
 
 		System.out.println(sql);
 
@@ -73,8 +76,7 @@ public class EditBusyoServlet extends HttpServlet {
 				// データベースへ接続します
 				Connection con = DriverManager.getConnection(url, user, pass);
 				// SQLの命令文を実行するための準備をおこないます
-				Statement stmt = con.createStatement();
-			) {
+				Statement stmt = con.createStatement();) {
 			// SQLの命令文を実行し、その件数をint型のresultCountに代入します
 			int resultCount = stmt.executeUpdate(sql);
 		} catch (Exception e) {
@@ -86,6 +88,4 @@ public class EditBusyoServlet extends HttpServlet {
 		// JSONで出力する
 		pw.append(new ObjectMapper().writeValueAsString("ok"));
 	}
-	}
-
 }

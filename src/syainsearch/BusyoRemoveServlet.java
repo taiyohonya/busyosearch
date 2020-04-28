@@ -65,8 +65,9 @@ public class BusyoRemoveServlet extends HttpServlet {
 		String pass = "wt2";
 
 		// // 実行するSQL文
-		String sql = "delete from BUSYO \n" +
-				"where 1=1 and BUSYO.BUSYO_NAME='"+removeBusyoId+"'\n" +" \n";
+		String sql = "delete from BUSYO where 1=1 and BUSYO.BUSYO_NAME='"+removeBusyoId+"'";
+
+		System.out.println(sql);
 
 		// エラーが発生するかもしれない処理はtry-catchで囲みます
 		// この場合はDBサーバへの接続に失敗する可能性があります

@@ -1,9 +1,11 @@
 // 新しい部署登録
 var editBusyo = function() {
 	var editBusyoName = $('#js-add-editName').val();
+	var originName = localStorage.getItem('nameOrigin');
 
 	var requestQuery = {
-		editName : editBusyoName
+		editName : editBusyoName,
+		originName : originName
 	};
 	console.log(requestQuery);
 	// サーバーにデータ送信
@@ -26,12 +28,18 @@ var editBusyo = function() {
 
 }
 
+var cancel = function() {
+	var url = 'http://localhost:8080/syainsearch/busyo.html';
+	location.href = url;
+}
+
 $(document).ready(function() {
-	'use strict';
+	//'use strict';
 
 	// 初期表示用
-	executeAjax();
+	//executeAjax();
 
-	$('#js-add-input').click(addBusyo);
+	$('#js-add-edit').click(editBusyo);
+	$('#js-add-cancel').click(cancel);
 
 });
