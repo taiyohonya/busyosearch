@@ -44,7 +44,8 @@ public class BusyoRemoveServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String removeBusyoId = request.getParameter("removeBusyoId");
+		String removeBusyoId = request.getParameter("busyoRemove");
+		System.out.println(removeBusyoId);
 
 		response.setContentType("text/html;charset=UTF-8");
 
@@ -65,7 +66,7 @@ public class BusyoRemoveServlet extends HttpServlet {
 		String pass = "wt2";
 
 		// // 実行するSQL文
-		String sql = "delete from BUSYO where 1=1 and BUSYO.BUSYO_NAME='"+removeBusyoId+"'";
+		String sql = "delete from BUSYO where 1=1 and BUSYO.BUSYO_ID='"+removeBusyoId+"'";
 
 		System.out.println(sql);
 

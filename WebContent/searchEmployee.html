@@ -3,12 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <title>社員データベース検索ページ</title>
+<!-- JavaScriptの読み込み -->
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"
+	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+	crossorigin="anonymous"></script>
+<script type="text/javascript" src="empSearch.js"></script>
 </head>
 <body>
 	<h1>条件を指定して社員情報を検索します。</h1>
 	<table>
 		<tr>
-			<th>所属部署</th>
+			<th>部署ID</th>
 			<td><input type="text" id="js-search-dep"></input></td>
 		<tr>
 			<th>社員ID</th>
@@ -20,5 +25,6 @@
 		</tr>
 	</table>
 	<button id=js-search-button>検索</button>
+	<div id="js-search-result"></div>
 </body>
 </html>

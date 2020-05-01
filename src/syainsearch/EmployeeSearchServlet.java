@@ -40,9 +40,9 @@ public class EmployeeSearchServlet extends HttpServlet {
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 
-		String inputDep=request.getParameter("inputDep");
-		String inputId=request.getParameter("inputId");
-		String inputName=request.getParameter("inputName");
+		String inputDep = request.getParameter("inputDep");
+		String inputId = request.getParameter("inputId");
+		String inputName = request.getParameter("inputName");
 
 		// JDBCドライバの準備
 		try {
@@ -61,10 +61,16 @@ public class EmployeeSearchServlet extends HttpServlet {
 		String pass = "wt2";
 
 		// // 実行するSQL文
-		String sql = "select * from SYAIN_INFO \n" +
-				"where 1=1 and BUSYO_ID='"+inputDep+"' \n" +
-				"and SYAIN_ID='"+inputDep+"' \n" +
-				"and SYAIN_NAME like '%"+inputName+"%'\n";
+		String sql = "select * \n" + "from SYAIN_INFO \n" + "where 1=1 \n";
+		if (!inputId.equals("")) {
+			sql += "and SYAIN_ID='" + inputId + "' \n";
+		}
+		if (!inputDep.equals("")) {
+			sql += "and BUSYO_ID='" + inputDep + "' \n";
+		}
+		if (!inputName.equals("")) {
+			sql += "and SYAIN_NAME like '%" + inputName + "%' \n";
+		}
 		// 商品情報リスト（Item型のリスト）
 		List<Employee> empList = new ArrayList<>();
 		// エラーが発生するかもしれない処理はtry-catchで囲みます

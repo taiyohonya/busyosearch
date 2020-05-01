@@ -45,7 +45,8 @@ public class EmpRemoveServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String removeEmpId = request.getParameter("removeEmpId");
+		String removeEmpId = request.getParameter("empRemove");
+		System.out.println("社員IDデータ："+removeEmpId);
 
 		response.setContentType("text/html;charset=UTF-8");
 
@@ -66,7 +67,8 @@ public class EmpRemoveServlet extends HttpServlet {
 		String pass = "wt2";
 
 		// // 実行するSQL文
-		String sql = "delete from SYAIN_INFO \n" + "where 1=1 and SYAIN_ID='" + removeEmpId + "'\n";
+		String sql = "delete from SYAIN_INFO  \n" +
+				"where 1=1 and SYAIN_ID='"+removeEmpId+"'\n";
 
 		System.out.println(sql);
 

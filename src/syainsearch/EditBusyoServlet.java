@@ -48,7 +48,7 @@ public class EditBusyoServlet extends HttpServlet {
 		// doGet(request, response);
 
 		String editName = request.getParameter("editName");
-		String originName = request.getParameter("originName");
+		String originName = request.getParameter("q");
 
 		// JDBCドライバの準備
 		try {
@@ -65,8 +65,8 @@ public class EditBusyoServlet extends HttpServlet {
 		String pass = "wt2";
 
 		// 実行するSQL文
-		String sql = "update BUSYO set BUSYO.BUSYO_NAME='" + editName + "' where 1=1 and BUSYO.BUSYO_NAME='"
-				+ originName + "'";
+		String sql = "update BUSYO \n" + "set BUSYO_NAME='" + editName + "' \n" + "where BUSYO.BUSYO_ID='" + originName
+				+ "'\n";
 
 		System.out.println(sql);
 

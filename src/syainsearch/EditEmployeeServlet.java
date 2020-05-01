@@ -45,14 +45,16 @@ public class EditEmployeeServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String empId = request.getParameter("empId");
+		String empId = request.getParameter("q");
 		String inputEmpName = request.getParameter("inputEmpName");
 		String inputEmpAge = request.getParameter("inputEmpAge");
 		String inputEmpSex = request.getParameter("inputEmpSex");
 		String inputEmpAdress = request.getParameter("inputEmpAdress");
 		String inputEmpDep = request.getParameter("inputEmpDep");
-		String inputEmpJoin = request.getParameter("inputEmpJoin");
-		String inputEmpLeave = request.getParameter("inputEmpLeave");
+//		String inputEmpJoin = request.getParameter("inputEmpJoin");
+//		String inputEmpLeave = request.getParameter("inputEmpLeave");
+
+		System.out.println(empId);
 
 		// JDBCドライバの準備
 		try {

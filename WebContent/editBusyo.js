@@ -1,11 +1,15 @@
 // 新しい部署登録
 var editBusyo = function() {
+
+	var parameter = location.search.substring(1, location.search.length);
+	parameter = decodeURIComponent(parameter);
+	parameter = parameter.split('=')[1];
+
 	var editBusyoName = $('#js-add-editName').val();
-	var originName = localStorage.getItem('nameOrigin');
 
 	var requestQuery = {
 		editName : editBusyoName,
-		originName : originName
+		q : parameter
 	};
 	console.log(requestQuery);
 	// サーバーにデータ送信
@@ -16,6 +20,8 @@ var editBusyo = function() {
 		data : requestQuery,
 		success : function(json) {
 			console.log('返却値', json);
+			var url = 'http://localhost:8080/syainsearch/successDep.html';
+			location.href = url;
 
 			alert('データベースへの登録が完了しました')
 		},
@@ -34,10 +40,10 @@ var cancel = function() {
 }
 
 $(document).ready(function() {
-	//'use strict';
+	// 'use strict';
 
 	// 初期表示用
-	//executeAjax();
+	// executeAjax();
 
 	$('#js-add-edit').click(editBusyo);
 	$('#js-add-cancel').click(cancel);

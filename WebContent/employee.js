@@ -42,6 +42,7 @@ var addEmp = function() {
 var deleteEmp = function() {
 
 	var removeEmpId = document.activeElement.value;
+	console.log(removeEmpId);
 	var requestQuery = {
 		empRemove : removeEmpId
 	};
@@ -49,6 +50,7 @@ var deleteEmp = function() {
 
 	$.ajax({
 		type : 'POST',
+		data : requestQuery,
 		dataType : 'json',
 		url : '/syainsearch/EmpRemoveServlet',
 		success : function(json) {
@@ -67,8 +69,15 @@ var deleteEmp = function() {
 var editEmp = function() {
 
 	var empId = document.activeElement.value;
-	localStorage.setItem(empId,empId);
-	var url = 'http://localhost:8080/syainsearch/editEditEmp.html';
+
+	var url = 'http://localhost:8080/syainsearch/editEditEmp.html?q=' + empId;
+	location.href = url;
+
+}
+
+var searchEmp = function() {
+
+	var url = 'http://localhost:8080/syainsearch/searchEmployee.html';
 	location.href = url;
 
 }
@@ -81,5 +90,7 @@ $(document).ready(function() {
 	$('#table_data').ready('load', executeAjax);
 
 	$('#js-add-input').click(addEmp);
+
+	$('#js-add-search').click(searchEmp);
 
 });

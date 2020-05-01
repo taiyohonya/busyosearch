@@ -28,7 +28,7 @@ var editAdd = function() {
 		data : requestQuery,
 		success : function(json) {
 			console.log('返却値', json);
-			var url = 'http://localhost:8080/syainsearch/success.html';
+			var url = 'http://localhost:8080/syainsearch/successEmp.html';
 			location.href = url;
 
 			alert('データベースへの登録が完了しました');
