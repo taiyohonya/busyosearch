@@ -19,6 +19,7 @@ function executeAjax() {
 						+ json[i].busyoId + '">削除' + '</button>' + '</td>';
 				$('#table_data').append(data);
 				console.log(json[i].busyoId);
+
 			}
 			$('.busyo_delete').click(deleteBusyo);
 			$('.busyo_edit').click(editBusyo);
@@ -50,6 +51,7 @@ var addBusyo = function() {
 		data : requestQuery,
 		success : function(json) {
 			console.log('返却値', json);
+			window.location.reload();
 
 			alert('データベースへの登録が完了しました')
 		},
@@ -78,6 +80,7 @@ var deleteBusyo = function() {
 		success : function(json) {
 			console.log('返却値', json);
 			alert('削除しました');
+			window.location.reload();
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			// サーバーとの通信に失敗した時の処理

@@ -56,6 +56,7 @@ var deleteEmp = function() {
 		success : function(json) {
 			console.log('返却値', json);
 
+			window.location.reload();
 			alert('削除しました');
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {

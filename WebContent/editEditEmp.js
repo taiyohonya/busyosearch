@@ -11,8 +11,8 @@ var editAdd = function() {
 	var inputEmpSex = $('#js-add-inputSex').val();
 	var inputEmpAdress = $('#js-add-inputAdress').val();
 	var inputEmpDep = $('#js-add-inputDep').val();
-//	var inputEmpJoin = $('#js-add-inputJoinDay').val();
-//	var inputEmpLeave = $('#js-add-inputLeaveDay').val();
+	var inputEmpJoin = $('#js-add-inputJoinDay').val();
+	var inputEmpLeave = $('#js-add-inputLeaveDay').val();
 
 	var requestQuery = {
 		q : parameter,
