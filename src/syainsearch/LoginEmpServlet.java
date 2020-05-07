@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,22 +39,7 @@ public class LoginEmpServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// String loginRequest = request.getParameter("loginRequest");
-		// PrintWriter pw = response.getWriter();
-		// if (status == null) {// まだログインしてない
-		// if (loginRequest != null && loginRequest.equals("login")) {
-		// session.setAttribute("userName", "ok");
-		// pw.append(new ObjectMapper().writeValueAsString("ログイン完了"));
-		// } else {
-		// pw.append(new ObjectMapper().writeValueAsString("ログインしてください"));
-		// }
-		// } else {// ログイン状態
-		// if (loginRequest != null && loginRequest.equals("logout")) {
-		// session.removeAttribute("login");
-		// pw.append(new ObjectMapper().writeValueAsString("ログアウトしました"));
-		// } else {
-		// pw.append(new ObjectMapper().writeValueAsString("ログイン状態です"));
-		// }
+
 	}
 
 	/**
@@ -74,6 +58,11 @@ public class LoginEmpServlet extends HttpServlet {
 		// アクセスした人に応答するためのJSONを用意する
 		PrintWriter pw = response.getWriter();
 
+		String sql = "select \n" + "SYAIN_INFO.SYAIN_ID \n" + "from \n" + "SYAIN_INFO \n" + ",INFORMATION \n"
+				+ "where 1=1 \n" + "and SYAIN_INFO.SYAIN_ID='"+userId+"' \n" + "and INFORMATION.PASSWORD='"+password+"' \n"
+				+ "and INFORMATION.SYAIN_ID=SYAIN_INFO.SYAIN_ID \n";
+
+		System.out.println(sql);
 		// JDBCドライバの準備
 		try {
 
@@ -96,10 +85,13 @@ public class LoginEmpServlet extends HttpServlet {
 				Connection con = DriverManager.getConnection(dbUrl, dbUser, dbPass);
 
 				// SQLの命令文を実行するための準備をおこないます
-				PreparedStatement stmt = createPreparedStatement(con, userId, password);
+				// PreparedStatement stmt = createPreparedStatement(con, userId,
+				// password);
+				Statement stmt = con.createStatement();
 
 				// SQLの命令文を実行し、その結果をResultSet型のrsに代入します
-				ResultSet rs1 = stmt.executeQuery();
+				// ResultSet rs1 = stmt.executeQuery();
+				ResultSet rs1 = stmt.executeQuery(sql);
 
 		) {
 			// SQLの取得結果がある時（ユーザIDとパスワードが一致しているユーザーがいる）は「ok」という文字列を画面に返却
@@ -126,22 +118,28 @@ public class LoginEmpServlet extends HttpServlet {
 		} catch (Exception e) {
 			throw new RuntimeException(String.format("検索処理の実施中にエラーが発生しました。詳細：[%s]", e.getMessage()), e);
 		}
-
-	}
-
-	// ---- ここから実装 -Part1- --------------------------------------------
-	private PreparedStatement createPreparedStatement(Connection con, String userId, String password)
-			throws SQLException {
-		System.out.println("確認userId=" + userId);
-		System.out.println("確認password=" + password);
-		// 実行するSQL文
-		String sql = "select \n" + " SYAIN_INFO.SYAIN_ID \n" + "from  \n" + " SYAIN_INFO \n" + " ,INFORMATION \n"
-				+ "where 1=1 \n" + "and SYAIN_INFO.SYAIN_ID=INFORMATION.SYAIN_ID \n" + "and SYAIN_INFO.SYAIN_ID=? \n"
-				+ "and INFORMATION.PASSWORD=?";
-		PreparedStatement stmt = con.prepareStatement(sql);
-		stmt.setString(1, userId);
-		stmt.setString(2, password);
-
-		return stmt;
 	}
 }
+
+// private PreparedStatement createPreparedStatement(Connection con, String
+// userId, String password)
+// throws SQLException {
+// System.out.println("確認userId=" + userId);
+// System.out.println("確認password=" + password);
+// // 実行するSQL文
+// String sql = "select \n" +
+// "SYAIN_INFO.SYAIN_ID \n" +
+// "from \n" +
+// "SYAIN_INFO \n" +
+// ",INFORMATION \n" +
+// "where 1=1 \n" +
+// "and SYAIN_INFO.SYAIN_ID=? \n" +
+// "and INFORMATION.PASSWORD=? \n" +
+// "and INFORMATION.SYAIN_ID=SYAIN_INFO.SYAIN_ID \n";
+// System.out.println(sql);
+// PreparedStatement stmt = con.prepareStatement(sql);
+// stmt.setString(1, userId);
+// stmt.setString(2, password);
+
+// return stmt;
+// }

@@ -83,6 +83,11 @@ var searchEmp = function() {
 
 }
 
+var move = function() {
+	var url = 'http://localhost:8080/syainsearch/busyo.html'
+	location.href = url;
+}
+
 $(document).ready(function() {
 	'use strict';
 
@@ -93,5 +98,7 @@ $(document).ready(function() {
 	$('#js-add-input').click(addEmp);
 
 	$('#js-add-search').click(searchEmp);
+
+	$('#js-move').click(move);
 
 });

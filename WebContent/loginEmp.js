@@ -15,7 +15,14 @@ var login = function() {
 		data : requestQuery,
 		success : function(json) {
 			console.log('返却値', json);
-			alert('ログインしました');
+			if (json.result == "ok") {
+				alert('ログイン成功');
+				var url = 'http://localhost:8080/syainsearch/employee.html'
+				location.href = url;
+			} else {
+				alert('ログイン失敗');
+			}
+
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			// サーバーとの通信に失敗した時の処理

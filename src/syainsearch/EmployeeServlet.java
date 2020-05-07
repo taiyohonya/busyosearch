@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -60,6 +61,30 @@ public class EmployeeServlet extends HttpServlet {
 		String sql = "select * from SYAIN_INFO \n";
 		// 商品情報リスト（Item型のリスト）
 		List<Employee> empList = new ArrayList<>();
+
+		// セッションにユーザー情報問い合わせ
+		HttpSession session = request.getSession();
+		// セッションから値取得
+		String status = (String) session.getAttribute("userId");
+		System.out.println(status);
+
+		PrintWriter pw = response.getWriter();
+
+		// if (status == null) {// まだログインしてない
+		// if (loginRequest != null && loginRequest.equals("userId")) {
+		// session.setAttribute("userName", "ok");
+		// pw.append(new ObjectMapper().writeValueAsString("ログイン完了"));
+		// } else {
+		// pw.append(new ObjectMapper().writeValueAsString("ログインしてください"));
+		// }
+		// } else {// ログイン状態
+		// if (loginRequest != null && loginRequest.equals("logout")) {
+		// session.removeAttribute("login");
+		// pw.append(new ObjectMapper().writeValueAsString("ログアウトしました"));
+		// } else {
+		// pw.append(new ObjectMapper().writeValueAsString("ログイン状態です"));
+		// }
+
 		// エラーが発生するかもしれない処理はtry-catchで囲みます
 		// この場合はDBサーバへの接続に失敗する可能性があります
 		try (
@@ -96,7 +121,7 @@ public class EmployeeServlet extends HttpServlet {
 		}
 
 		// アクセスした人に応答するためのJSONを用意する
-		PrintWriter pw = response.getWriter();
+		// PrintWriter pw = response.getWriter();
 		// JSONで出力する
 		pw.append(new ObjectMapper().writeValueAsString(empList));
 		// pw.append(new ObjectMapper().writeValueAsString(busyoId));

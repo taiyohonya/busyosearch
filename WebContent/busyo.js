@@ -99,6 +99,11 @@ var editBusyo = function() {
 
 }
 
+var moveEmp = function(){
+	var url = 'http://localhost:8080/syainsearch/employee.html';
+	location.href = url;
+}
+
 $(document).ready(function() {
 	'use strict';
 
@@ -108,4 +113,5 @@ $(document).ready(function() {
 
 	$('#js-add-input').click(addBusyo);
 
+	$('#js-move-emp').click(moveEmp);
 });
