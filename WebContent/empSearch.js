@@ -18,6 +18,7 @@ var getEmpInfo = function() {
 		data : requestQuery,
 		success : function(json) {
 			console.log('返却値', json);
+
 			for(var i=0;i<json.length;i++){
 				var result = '<tr>'+'<th>社員ID'+'</th>'+'<td>'+json[i].empId+'</td>'+'<th>名前'+'</th>'+'<td>'+json[i].empName+'<td>'+'<th>年齢'+'</th>'+
 				'<td>'+json[i].empAge+'</td>'+'<th>性別</th>'+'<td>'+json[i].empSex+'</td>'
@@ -27,6 +28,7 @@ var getEmpInfo = function() {
 
 
 			alert('データベースへの検索が完了しました');
+
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			// サーバーとの通信に失敗した時の処理
