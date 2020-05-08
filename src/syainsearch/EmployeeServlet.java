@@ -7,7 +7,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -65,25 +67,25 @@ public class EmployeeServlet extends HttpServlet {
 		// セッションにユーザー情報問い合わせ
 		HttpSession session = request.getSession();
 		// セッションから値取得
-		String status = (String) session.getAttribute("userId");
+		String status = (String) session.getAttribute("login");
 		System.out.println(status);
 
 		PrintWriter pw = response.getWriter();
+		Map<String, Object> responseData = new HashMap<>();
 
-		// if (status == null) {// まだログインしてない
-		// if (loginRequest != null && loginRequest.equals("userId")) {
-		// session.setAttribute("userName", "ok");
-		// pw.append(new ObjectMapper().writeValueAsString("ログイン完了"));
-		// } else {
-		// pw.append(new ObjectMapper().writeValueAsString("ログインしてください"));
-		// }
-		// } else {// ログイン状態
-		// if (loginRequest != null && loginRequest.equals("logout")) {
-		// session.removeAttribute("login");
-		// pw.append(new ObjectMapper().writeValueAsString("ログアウトしました"));
-		// } else {
-		// pw.append(new ObjectMapper().writeValueAsString("ログイン状態です"));
-		// }
+		if (status == null) {// まだログインしてない
+			responseData.put("result", "ng");
+			System.out.println("NGパターン");
+		} else {// ログイン状態
+			// if (loginRequest != null && loginRequest.equals("logout")) {
+			// session.removeAttribute("login");
+			// pw.append(new ObjectMapper().writeValueAsString("ログアウトしました"));
+			// } else {
+			// pw.append(new ObjectMapper().writeValueAsString("ログイン状態です"));
+			// }
+			responseData.put("result", "ok");
+			System.out.println("OKパターン");
+		}
 
 		// エラーが発生するかもしれない処理はtry-catchで囲みます
 		// この場合はDBサーバへの接続に失敗する可能性があります
@@ -119,12 +121,9 @@ public class EmployeeServlet extends HttpServlet {
 		} catch (Exception e) {
 			throw new RuntimeException(String.format("検索処理の実施中にエラーが発生しました。詳細：[%s]", e.getMessage()), e);
 		}
+		responseData.put("data", empList);
 
-		// アクセスした人に応答するためのJSONを用意する
-		// PrintWriter pw = response.getWriter();
-		// JSONで出力する
-		pw.append(new ObjectMapper().writeValueAsString(empList));
-		// pw.append(new ObjectMapper().writeValueAsString(busyoId));
+		pw.append(new ObjectMapper().writeValueAsString(responseData));
 	}
 
 	/**
@@ -141,6 +140,30 @@ public class EmployeeServlet extends HttpServlet {
 		String inputEmpDep = request.getParameter("inputEmpDep");
 		String inputEmpJoin = request.getParameter("inputEmpJoin");
 		String inputEmpLeave = request.getParameter("inputEmpLeave");
+
+		// セッションにユーザー情報問い合わせ
+		HttpSession session = request.getSession();
+		// セッションから値取得
+		String status = (String) session.getAttribute("login");
+		System.out.println(status);
+
+		PrintWriter pw = response.getWriter();
+		Map<String, Object> responseData = new HashMap<>();
+
+		if (status == null) {// まだログインしてない
+			responseData.put("result", "ng");
+			System.out.println("NGパターン");
+		} else {// ログイン状態
+			// メンバー、マネージャー振り分け
+			String role = (String) session.getAttribute("role");
+			if (role.equals("MENBER")) {
+				responseData.put("result", "ng");
+				System.out.println("NGパターン");
+			} else {
+				responseData.put("result", "ok");
+				System.out.println("OKパターン");
+			}
+		}
 
 		// JDBCドライバの準備
 		try {
@@ -176,9 +199,8 @@ public class EmployeeServlet extends HttpServlet {
 		}
 
 		// アクセスした人に応答するためのJSONを用意する
-		PrintWriter pw = response.getWriter();
 		// JSONで出力する
-		pw.append(new ObjectMapper().writeValueAsString("ok"));
+		pw.append(new ObjectMapper().writeValueAsString("responseData"));
 	}
 
 }

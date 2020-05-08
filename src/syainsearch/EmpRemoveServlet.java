@@ -5,12 +5,15 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -46,9 +49,33 @@ public class EmpRemoveServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String removeEmpId = request.getParameter("empRemove");
-		System.out.println("社員IDデータ："+removeEmpId);
+		System.out.println("社員IDデータ：" + removeEmpId);
 
 		response.setContentType("text/html;charset=UTF-8");
+
+		// セッションにユーザー情報問い合わせ
+		HttpSession session = request.getSession();
+		// セッションから値取得
+		String status = (String) session.getAttribute("login");
+		System.out.println(status);
+
+		PrintWriter pw = response.getWriter();
+		Map<String, Object> responseData = new HashMap<>();
+
+		if (status == null) {// まだログインしてない
+			responseData.put("result", "ng");
+			System.out.println("NGパターン");
+		} else {// ログイン状態
+			// メンバー、マネージャー振り分け
+			String role = (String) session.getAttribute("role");
+			if (role.equals("MENBER")) {
+				responseData.put("result", "ng");
+				System.out.println("NGパターン");
+			} else {
+				responseData.put("result", "ok");
+				System.out.println("OKパターン");
+			}
+		}
 
 		// JDBCドライバの準備
 		try {
@@ -67,8 +94,7 @@ public class EmpRemoveServlet extends HttpServlet {
 		String pass = "wt2";
 
 		// // 実行するSQL文
-		String sql = "delete from SYAIN_INFO  \n" +
-				"where 1=1 and SYAIN_ID='"+removeEmpId+"'\n";
+		String sql = "delete from SYAIN_INFO  \n" + "where 1=1 and SYAIN_ID='" + removeEmpId + "'\n";
 
 		System.out.println(sql);
 
@@ -89,9 +115,8 @@ public class EmpRemoveServlet extends HttpServlet {
 		}
 
 		// アクセスした人に応答するためのJSONを用意する
-		PrintWriter pw = response.getWriter();
 		// JSONで出力する
-		pw.append(new ObjectMapper().writeValueAsString("ok"));
+		pw.append(new ObjectMapper().writeValueAsString("responseData"));
 		// pw.append(new ObjectMapper().writeValueAsString(busyoId));
 	}
 }

@@ -15,7 +15,7 @@ var login = function() {
 		data : requestQuery,
 		success : function(json) {
 			console.log('返却値', json);
-			if (json.result == "ok") {
+			if (json.result === "ok") {
 				alert('ログイン成功');
 				var url = 'http://localhost:8080/syainsearch/employee.html'
 				location.href = url;

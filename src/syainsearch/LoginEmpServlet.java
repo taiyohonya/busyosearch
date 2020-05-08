@@ -22,6 +22,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * Servlet implementation class LoginEmpServlet
  */
 @WebServlet("/LoginEmpServlet")
+// http://localhost:8080/syainsearch/LoginEmpServlet
+// http://localhost:8080/syainsearch/loginEmp.html
 public class LoginEmpServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -58,7 +60,8 @@ public class LoginEmpServlet extends HttpServlet {
 		// アクセスした人に応答するためのJSONを用意する
 		PrintWriter pw = response.getWriter();
 
-		String sql = "select \n" + "SYAIN_INFO.SYAIN_ID \n" + "from \n" + "SYAIN_INFO \n" + ",INFORMATION \n"
+		String sql = "select \n" + "SYAIN_INFO.SYAIN_ID \n" + ",INFORMATION.PASSWORD \n" +
+				",INFORMATION.ROLE \n" +"from \n" + "SYAIN_INFO \n" + ",INFORMATION \n"
 				+ "where 1=1 \n" + "and SYAIN_INFO.SYAIN_ID='"+userId+"' \n" + "and INFORMATION.PASSWORD='"+password+"' \n"
 				+ "and INFORMATION.SYAIN_ID=SYAIN_INFO.SYAIN_ID \n";
 
@@ -103,11 +106,13 @@ public class LoginEmpServlet extends HttpServlet {
 				responseData.put("result", "ok");
 				// ユーザーコードとユーザー名（画面でユーザー名を表示したいため）
 				responseData.put("userId", rs1.getString("SYAIN_ID"));
-				// responseData.put("userName", rs1.getString("USER_NAME"));
 
 				// ユーザー情報をセッションに保存
 				HttpSession session = request.getSession();
-				session.setAttribute("userId", rs1.getString("SYAIN_ID"));
+				session.setAttribute("login", rs1.getString("PASSWORD"));
+				session.setAttribute("employeeId", rs1.getString("SYAIN_ID"));
+				session.setAttribute("role", rs1.getString("ROLE"));
+				System.out.println(session);
 
 			} else {
 				responseData.put("result", "ng");
@@ -121,25 +126,3 @@ public class LoginEmpServlet extends HttpServlet {
 	}
 }
 
-// private PreparedStatement createPreparedStatement(Connection con, String
-// userId, String password)
-// throws SQLException {
-// System.out.println("確認userId=" + userId);
-// System.out.println("確認password=" + password);
-// // 実行するSQL文
-// String sql = "select \n" +
-// "SYAIN_INFO.SYAIN_ID \n" +
-// "from \n" +
-// "SYAIN_INFO \n" +
-// ",INFORMATION \n" +
-// "where 1=1 \n" +
-// "and SYAIN_INFO.SYAIN_ID=? \n" +
-// "and INFORMATION.PASSWORD=? \n" +
-// "and INFORMATION.SYAIN_ID=SYAIN_INFO.SYAIN_ID \n";
-// System.out.println(sql);
-// PreparedStatement stmt = con.prepareStatement(sql);
-// stmt.setString(1, userId);
-// stmt.setString(2, password);
-
-// return stmt;
-// }

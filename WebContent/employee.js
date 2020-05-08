@@ -9,16 +9,25 @@ function executeAjax() {
 		// data : requestQuery, // urlの?以降
 		success : function(json) {
 			console.log(json);
+			if (json.result === "ok") {
+				for (var i = 0; i < json.data.length; i++) {
+					var data = '<tr>' + '<td>' + json.data[i].empId + '</td>'
+							+ '<td>' + json.data[i].empName + '</td>' + '<td>'
+							+ '<button class="emp_edit" value="'
+							+ json.data[i].empId + '">編集 ' + '</button>'
+							+ '</td>' + '<td>'
+							+ '<button class="emp_delete" value="'
+							+ json.data[i].empId + '">削除' + '</button>'
+							+ '</td>';
+					$('#table_data').append(data);
+					console.log(json.data[i].empId);
+				}
+			} else {
+				alert('権限がありません。またはログインが必要です。');
+				$('#table_data').append("");
+				var url = 'http://localhost:8080/syainsearch/loginEmp.html';
+				location.href = url;
 
-			for (var i = 0; i < json.length; i++) {
-				var data = '<tr>' + '<td>' + json[i].empId + '</td>' + '<td>'
-						+ json[i].empName + '</td>' + '<td>'
-						+ '<button class="emp_edit" value="' + json[i].empId
-						+ '">編集 ' + '</button>' + '</td>' + '<td>'
-						+ '<button class="emp_delete" value="' + json[i].empId
-						+ '">削除' + '</button>' + '</td>';
-				$('#table_data').append(data);
-				console.log(json[i].empId);
 			}
 			$('.emp_delete').click(deleteEmp);
 			$('.emp_edit').click(editEmp);
@@ -54,10 +63,18 @@ var deleteEmp = function() {
 		dataType : 'json',
 		url : '/syainsearch/EmpRemoveServlet',
 		success : function(json) {
-			console.log('返却値', json);
 
-			window.location.reload();
-			alert('削除しました');
+			if (json.result == "ok") {
+				console.log('返却値', json);
+
+				window.location.reload();
+				alert('削除しました');
+			} else {
+				alert('権限がありません。またはログインが必要です。');
+				$('#table_data').append("");
+				var url = 'http://localhost:8080/syainsearch/loginEmp.html';
+				location.href = url;
+			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			// サーバーとの通信に失敗した時の処理

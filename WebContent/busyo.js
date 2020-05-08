@@ -10,16 +10,24 @@ function executeAjax() {
 		success : function(json) {
 			console.log(json);
 
-			for (var i = 0; i < json.length; i++) {
-				var data = '<tr>' + '<td>' + (i + 1) + '</td>' + '<td>'
-						+ json[i].busyoName + '</td>' + '<td>'
-						+ '<button class="busyo_edit" value="'
-						+ json[i].busyoId + '">編集 ' + '</button>' + '</td>'
-						+ '<td>' + '<button class="busyo_delete" value="'
-						+ json[i].busyoId + '">削除' + '</button>' + '</td>';
-				$('#table_data').append(data);
-				console.log(json[i].busyoId);
-
+			if (json.result == "ok") {
+				for (var i = 0; i < json.length; i++) {
+					var data = '<tr>' + '<td>' + (i + 1) + '</td>' + '<td>'
+							+ json.data[i].busyoName + '</td>' + '<td>'
+							+ '<button class="busyo_edit" value="'
+							+ json.data[i].busyoId + '">編集 ' + '</button>'
+							+ '</td>' + '<td>'
+							+ '<button class="busyo_delete" value="'
+							+ json.data[i].busyoId + '">削除' + '</button>'
+							+ '</td>';
+					$('#table_data').append(data);
+					console.log(json.data[i].busyoId);
+				}
+			} else {
+				alert('ログインしてください');
+				$('#table_data').append("");
+				var url = 'http://localhost:8080/syainsearch/loginEmp.html';
+				location.href = url;
 			}
 			$('.busyo_delete').click(deleteBusyo);
 			$('.busyo_edit').click(editBusyo);
@@ -50,10 +58,17 @@ var addBusyo = function() {
 		url : '/syainsearch/BusyoServlet',
 		data : requestQuery,
 		success : function(json) {
-			console.log('返却値', json);
-			window.location.reload();
+			if (json.result == "ok") {
+				console.log('返却値', json);
+				window.location.reload();
 
-			alert('データベースへの登録が完了しました')
+				alert('データベースへの登録が完了しました')
+			} else {
+				alert('権限がありません。またはログインしてください。');
+				$('#table_data').append("");
+				var url = 'http://localhost:8080/syainsearch/loginEmp.html';
+				location.href = url;
+			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			// サーバーとの通信に失敗した時の処理
@@ -78,9 +93,16 @@ var deleteBusyo = function() {
 		dataType : 'json',
 		url : '/syainsearch/BusyoRemoveServlet',
 		success : function(json) {
-			console.log('返却値', json);
-			alert('削除しました');
-			window.location.reload();
+			if (json.result == "ok") {
+				console.log('返却値', json);
+				alert('削除しました');
+				window.location.reload();
+			} else {
+				alert('権限がありません。またはログインしてください。');
+				$('#table_data').append("");
+				var url = 'http://localhost:8080/syainsearch/loginEmp.html';
+				location.href = url;
+			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			// サーバーとの通信に失敗した時の処理
@@ -94,12 +116,13 @@ var editBusyo = function() {
 
 	var editBusyoId = document.activeElement.value;
 
-	var url = 'http://localhost:8080/syainsearch/edit_busyo.html?busyoId='+editBusyoId;
+	var url = 'http://localhost:8080/syainsearch/edit_busyo.html?busyoId='
+			+ editBusyoId;
 	location.href = url;
 
 }
 
-var moveEmp = function(){
+var moveEmp = function() {
 	var url = 'http://localhost:8080/syainsearch/employee.html';
 	location.href = url;
 }

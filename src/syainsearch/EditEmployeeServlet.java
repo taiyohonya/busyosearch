@@ -5,12 +5,15 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -51,10 +54,33 @@ public class EditEmployeeServlet extends HttpServlet {
 		String inputEmpSex = request.getParameter("inputEmpSex");
 		String inputEmpAdress = request.getParameter("inputEmpAdress");
 		String inputEmpDep = request.getParameter("inputEmpDep");
-//		String inputEmpJoin = request.getParameter("inputEmpJoin");
-//		String inputEmpLeave = request.getParameter("inputEmpLeave");
+		// String inputEmpJoin = request.getParameter("inputEmpJoin");
+		// String inputEmpLeave = request.getParameter("inputEmpLeave");
 
 		System.out.println(empId);
+
+		// セッションにユーザー情報問い合わせ
+		HttpSession session = request.getSession();
+		// セッションから値取得
+		String status = (String) session.getAttribute("login");
+		System.out.println(status);
+
+		PrintWriter pw = response.getWriter();
+		Map<String, Object> responseData = new HashMap<>();
+
+		if (status == null) {// まだログインしてない
+			responseData.put("result", "ng");
+			System.out.println("NGパターン");
+		} else {// ログイン状態
+			String role = (String) session.getAttribute("role");
+			if (role.equals("MENBER")) {
+				responseData.put("result", "ng");
+				System.out.println("NGパターン");
+			} else {
+				responseData.put("result", "ok");
+				System.out.println("OKパターン");
+			}
+		}
 
 		// JDBCドライバの準備
 		try {
@@ -91,9 +117,8 @@ public class EditEmployeeServlet extends HttpServlet {
 		}
 
 		// アクセスした人に応答するためのJSONを用意する
-		PrintWriter pw = response.getWriter();
 		// JSONで出力する
-		pw.append(new ObjectMapper().writeValueAsString("ok"));
+		pw.append(new ObjectMapper().writeValueAsString("responseData"));
 	}
 
 }

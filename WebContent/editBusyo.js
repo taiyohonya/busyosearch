@@ -20,10 +20,18 @@ var editBusyo = function() {
 		data : requestQuery,
 		success : function(json) {
 			console.log('返却値', json);
-			var url = 'http://localhost:8080/syainsearch/successDep.html';
-			location.href = url;
 
-			alert('データベースへの登録が完了しました')
+			if (json.result == "ok") {
+				var url = 'http://localhost:8080/syainsearch/successDep.html';
+				location.href = url;
+
+				alert('データベースへの登録が完了しました')
+			} else {
+				alert('権限がありません。またはログインしてください。');
+				$('#table_data').append("");
+				var url = 'http://localhost:8080/syainsearch/loginEmp.html';
+				location.href = url;
+			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			// サーバーとの通信に失敗した時の処理
